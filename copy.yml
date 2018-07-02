@@ -3,8 +3,8 @@
 - hosts: test-servers
   gather_facts: no
   remote_user: root
-  become: true
-  become_method: sudo -s
+  become: yes
+  become_method: sudo
   tasks:
    - name: replacing config file
      copy:
