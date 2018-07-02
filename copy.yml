@@ -1,0 +1,10 @@
+
+---
+- hosts: test-servers
+  tasks:
+   - name: replacing config file
+     copy:
+       src: /vagrant/test.txt
+       dest: /etc/httpd/conf/
+
+
