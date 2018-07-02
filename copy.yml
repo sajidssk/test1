@@ -1,9 +1,6 @@
 
 ---
 - hosts: test-servers
-  remote_user: root
-  become: true
-  become_method: sudo -s
   tasks:
    - name: replacing config file
      copy:
