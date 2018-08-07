@@ -1,0 +1,21 @@
+---
+- hosts: test-server
+  remote_user: root
+  become: yes
+  become_method: sudo
+  vars:
+   download_url: httpd:;;;
+   download_folder: /etc/ansible
+   java_folder: "{{download_folder}}/java-8-8"
+   java_archive: "{{download_folder}}/java-8-8.00.tar.gz"
+  tasks:
+  - name: download java
+    command: " wget -p -O {{java_archive}} --no-check-certificate --no-cookie --header 'Cookie: oraclelicence=accept-securebackup-cookie' {{download_url}} creates={{java_archive}}
+  - name: unpack archive
+    command: " tar -zxf {{java_archive}} -C {{download_folder}} creates={{java_folder}}"
+  - name: fix ownership
+    file: state=directory path={{java_folder}} owner=root group=user recurse=yes
+  - name: make java available for system
+    command: 'alternatives --install "/usr/bin/java" "java" "{{java_folder}}/bin/java" 2000'
+  - name: clean up
+    file: state=absent path={{java_archive}}
